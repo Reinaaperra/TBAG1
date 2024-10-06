@@ -38,9 +38,12 @@ class Game:
             if command in ["north", "south", "east", "west", "up", "down"]:
                 next_room = self.current_room.move(command, player_inventory)
 
+                if command in ["north", "south", "east", "west", "up", "down"]:
+                next_room = self.current_room.move(command, player_inventory)
+
                 if next_room:  
-    # Check if a key is required and if the player has it
-                    if next_room.get_key_required() and next_room.get_key_required() not in player_inventory["key"]:
+                    # Check if a key is required and if the player has it
+                    if next_room.get_key_required() and not next_room.can_enter(player_inventory):
                         print(f"You need the {next_room.get_key_required().get_name()} to enter this room.")
                     else:
                         self.enter_room(next_room)
@@ -150,6 +153,14 @@ def main():
     bedroom_key = Item(item_name="Key to Primary Bedroom", item_category="key", item_description="Unlocks the Primary Bedroom")
     attic_key = Item(item_name="Key to Attic", item_category="key", item_description="Unlocks the Attic")
     basement_key = Item(item_name="Key to Basement", item_category="key", item_description="Unlocks the Basement")
+
+    player_inventory["key"].append(kitchen_key)
+    player_inventory["key"].append(bathroom_key)
+    player_inventory["key"].append(ballroom_key)
+    player_inventory["key"].append(dining_hall_key)
+    player_inventory["key"].append(bedroom_key)
+    player_inventory["key"].append(attic_key)
+    player_inventory["key"].append(basement_key)
 
     # Set keys required for each room
     kitchen.set_key_required(kitchen_key)
